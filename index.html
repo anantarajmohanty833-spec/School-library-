@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PM Shri KV 4 Bhubaneswar Library</title
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: black;
+    }
+
+    .frame {
+      width: 100%;
+      min-height: 100vh;
+      background: url("library_frame.jpg") no-repeat center;
+      background-size: contain;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .content {
+      width: 72%;
+      height: 72%;
+      background: linear-gradient(135deg, #D2B48c, #786C3B);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+      overflow-y: auto;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #ff0000, #ffcc33);
+      border-radius: 15px;
+      padding: 15px;
+      text-align: center;
+      color: lightgray;
+      font-size: 22px;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .subtitle {
+      text-align: center;
+      margin-top: 8px;
+      font-size: 16px;
+      color: #444;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 25px;
+    }
+
+    .cat-btn {
+      padding: 18px;
+      font-size: 18px;
+      border: none;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #5f9cff, #7b61ff);
+      color: wheat;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .cat-btn:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* TABLE PAGE */
+    .table-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      margin-top: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+
+    th {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+    }
+
+    td {
+      padding: 10px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    tr:hover {
+      background: #f0f8ff;
+    }
+
+    .back-btn {
+      margin-top: 15px;
+      background: linear-gradient(135deg, #ff512f, #dd2476);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+      transition: 0.3s;
+    }
+
+    .back-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .table-title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+      color: brown;
+    }
+  </style>
+</head>
+<body>
+
+<div class="frame">
+  <div class="content">
+
+    <!-- HOME -->
+    <div id="homeScreen">
+      <div class="header">📚 PM Shri KV 4 Bhubaneswar – Library</div>
+      <div class="subtitle">✨ Choose a category to explore books</div>
+
+      <div class="grid">
+        <button class="cat-btn" onclick="openCategory('School Subject')">📘 School Subject</button>
+        <button class="cat-btn" onclick="openCategory('Sports')">🏏 Sports</button>
+        <button class="cat-btn" onclick="openCategory('GK')">🌍 GK</button>
+        <button class="cat-btn" onclick="openCategory('Science')">🔬 Science</button>
+        <button class="cat-btn" onclick="openCategory('Fictional')">📖 Fictional</button>
+        <button class="cat-btn" onclick="openCategory('Comic')">😂 Comic</button>
+        <button class="cat-btn" onclick="openCategory('Anime')">🎌 Anime</button>
+        <button class="cat-btn" onclick="openCategory('Biography')">👤 Biography</button>
+      </div>
+
+      <div class="footer-note">📖 Happy Reading! ✏️📚</div>
+    </div>
+
+    <!-- BOOK LIST -->
+    <div id="booksScreen" class="hidden">
+      <div class="header" id="categoryTitle">Books</div>
+
+      <div class="table-card">
+        <div class="table-title">📋 Book List & Shelf Details</div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Sl No</th>
+              <th>📕 Book Name</th>
+              <th>🗄 Shelf</th>
+            </tr>
+          </thead>
+          <tbody id="bookTable"></tbody>
+        </table>
+      </div>
+
+      <button class="back-btn" onclick="goBack()">⬅ Back to Categories</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const booksData = {
+    "School Subject": [
+      ["Maths Class 9", "A1"],
+      ["English Grammar", "A2"],
+      ["History NCERT", "A3"],["English class 8","A2"]
+    ],
+    "Sports": [
+      ["Cricket Rules", "B1"],
+      ["Football Guide", "B2"]
+    ],
+    "GK": [
+      ["General Knowledge 2025", "C1"],
+      ["World Facts", "C2"]
+    ],
+    "Science": [
+      ["Physics Basics", "D1"],
+      ["Chemistry Lab", "D2"]
+    ],
+    "Fictional": [
+      ["Harry Potter", "E1"],
+      ["The Hobbit", "E2"]
+    ],
+    "Comic": [
+      ["Chacha Chaudhary", "F1"],
+      ["Tinkle", "F2"]
+    ],
+    "Anime": [
+      ["Naruto Manga", "G1"],
+      ["One Piece", "G2"]
+    ],
+    "Biography": [
+      ["APJ Abdul Kalam", "H1"],
+      ["Mahatma Gandhi", "H2"]
+    ]
+  };
+
+  function openCategory(category) {
+    document.getElementById("homeScreen").classList.add("hidden");
+    document.getElementById("booksScreen").classList.remove("hidden");
+
+    document.getElementById("categoryTitle").innerText =
+      "📚 " + category + " Books";
+
+    const table = document.getElementById("bookTable");
+    table.innerHTML = "";
+
+    booksData[category].forEach((book, index) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${book[0]}</td>
+        <td>${book[1]}</td>
+      `;
+      table.appendChild(row);
+    });
+  }
+
+  function goBack() {
+    document.getElementById("booksScreen").classList.add("hidden");
+    document.getElementById("homeScreen").classList.remove("hidden");
+  }
+</script>
+
+</body>
+</html>
